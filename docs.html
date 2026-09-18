@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação da API - Gestão de Documentos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .docs-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .docs-section {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--secondary);
+        }
+        .docs-section h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+        .endpoint-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(109, 32, 32, 0.1);
+            color: var(--secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(109, 32, 32, 0.2);
+        }
+        .method {
+            background-color: var(--highlight);
+            color: var(--secondary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .docs-text {
+            line-height: 1.6;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        .docs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .docs-table th, .docs-table td {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .docs-table th {
+            background-color: #f9f9f9;
+            color: var(--text);
+            font-weight: 600;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            position: relative;
+        }
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(255,255,255,0.1);
+            padding: 0.2rem 0.5rem;
+            border-bottom-left-radius: 8px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+        .highlight-key { color: #9cdcfe; }
+        .highlight-string { color: #ce9178; }
+        .highlight-keyword { color: #569cd6; }
+        .highlight-boolean { color: #4fc1ff; }
+
+        .api-key-box {
+            background-color: rgba(253, 185, 37, 0.15);
+            border: 1px dashed var(--highlight);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .api-key-box i {
+            font-size: 2rem;
+            color: var(--highlight);
+        }
+        .api-key-content strong {
+            display: block;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+        .api-key-content span {
+            font-family: 'Fira Code', monospace;
+            background-color: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            color: var(--error);
+        }
+        
+        .copy-btn {
+            background: rgba(109, 32, 32, 0.1);
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            background: rgba(109, 32, 32, 0.2);
+        }
+        .code-block .copy-btn {
+            position: absolute;
+            top: 0.2rem;
+            right: 4rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .code-block .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="docs-container">
+        <header class="app-header" style="margin-bottom: 2rem;">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+                <h1>Documentação da API</h1>
+            </div>
+            <p>Guia de integração para envio de documentos avulsos (ex: via n8n).</p>
+        </header>
+
+        <main>
+            <section class="docs-section">
+                <h2><i class="fa-solid fa-shield-halved"></i> Autenticação</h2>
+                <div class="api-key-box">
+                    <i class="fa-solid fa-key"></i>
+                    <div class="api-key-content">
+                        <strong>Chave de API de Teste</strong>
+                        Todas as requisições devem incluir o cabeçalho <span id="apiKeyText">x-api-key: mota-api-key-123</span>
+                        <button class="copy-btn" onclick="copyText('apiKeyText')" title="Copiar"><i class="fa-solid fa-copy"></i></button>
+                    </div>
+                </div>
+                <p class="docs-text">Essa chave garante que apenas o seu fluxo do n8n (ou sistemas autorizados) possa enviar documentos para a plataforma.</p>
+            </section>
+
+            <section class="docs-section">
+                <h2><i class="fa-solid fa-cloud-arrow-up"></i> Upload de Novo Documento</h2>
+                <p class="docs-text">Este endpoint recebe um arquivo físico e o salva na caixa de entrada de novos documentos. Ideal para processar anexos de emails recebidos de clientes, sem a necessidade de pré-atribuir a um CPF.</p>
+                
+                <div class="endpoint-badge">
+                    <span class="method">POST</span> <span id="endpointText">/api/upload-documento</span>
+                    <button class="copy-btn" onclick="copyText('endpointText')" title="Copiar"><i class="fa-solid fa-copy"></i></button>
+                </div>
+
+                <h3>Parâmetros (Form Data)</h3>
+                <table class="docs-table">
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Tipo</th>
+                            <th>Obrigatório</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>documento</code></td>
+                            <td>File</td>
+                            <td><span style="color:var(--error);font-weight:bold;">Sim</span></td>
+                            <td>O arquivo em si. Aceitos: PDF, JPG, JPEG, PNG (Max: 10MB).</td>
+                        </tr>
+                        <tr>
+                            <td><code>remetente</code></td>
+                            <td>String</td>
+                            <td>Não</td>
+                            <td>O e-mail de quem enviou o arquivo (para identificação).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Exemplo com cURL</h3>
+                <div class="code-block" data-lang="bash">
+                    <button class="copy-btn" onclick="copyText('curlText')" title="Copiar cURL"><i class="fa-solid fa-copy"></i></button>
+<span id="curlText"><span class="highlight-keyword">curl</span> -X POST http://localhost:3000/api/upload-documento \
+  -H <span class="highlight-string">"x-api-key: mota-api-key-123"</span> \
+  -F <span class="highlight-string">"documento=@/caminho/para/o/arquivo.pdf"</span> \
+  -F <span class="highlight-string">"remetente=cliente@email.com"</span></span>
+                </div>
+
+                <h3>Exemplo em Node.js (fetch/n8n)</h3>
+                <div class="code-block" data-lang="javascript">
+<span class="highlight-keyword">const</span> formData = <span class="highlight-keyword">new</span> FormData();
+formData.append(<span class="highlight-string">'documento'</span>, fileInput);
+formData.append(<span class="highlight-string">'remetente'</span>, <span class="highlight-string">'cliente@email.com'</span>);
+
+<span class="highlight-keyword">const</span> response = <span class="highlight-keyword">await</span> fetch(<span class="highlight-string">'http://localhost:3000/api/upload-documento'</span>, {
+    <span class="highlight-key">method</span>: <span class="highlight-string">'POST'</span>,
+    <span class="highlight-key">headers</span>: {
+        <span class="highlight-string">'x-api-key'</span>: <span class="highlight-string">'mota-api-key-123'</span>
+    },
+    <span class="highlight-key">body</span>: formData
+});
+
+<span class="highlight-keyword">const</span> data = <span class="highlight-keyword">await</span> response.json();
+                </div>
+
+                <h3>Resposta de Sucesso (200 OK)</h3>
+                <div class="code-block" data-lang="json">
+{
+  <span class="highlight-key">"success"</span>: <span class="highlight-boolean">true</span>,
+  <span class="highlight-key">"message"</span>: <span class="highlight-string">"Documento recebido e salvo na caixa de entrada com sucesso."</span>,
+  <span class="highlight-key">"document"</span>: {
+    <span class="highlight-key">"id"</span>: <span class="highlight-boolean">1726000000000</span>,
+    <span class="highlight-key">"fileName"</span>: <span class="highlight-string">"arquivo.pdf"</span>,
+    <span class="highlight-key">"savedName"</span>: <span class="highlight-string">"doc-1726000000000.pdf"</span>,
+    <span class="highlight-key">"remetente"</span>: <span class="highlight-string">"cliente@email.com"</span>,
+    <span class="highlight-key">"dataRecebimento"</span>: <span class="highlight-string">"2026-09-18T10:00:00.000Z"</span>
+  }
+}
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast (Reused style idea, simpler implementation) -->
+    <script>
+        function copyText(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btn = event.currentTarget;
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                }, 2000);
+            }).catch(err => {
+                console.error('Erro ao copiar', err);
+            });
+        }
+    </script>
+</body>
+</html>

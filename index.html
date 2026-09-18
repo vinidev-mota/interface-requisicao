@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requisição de Documentos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fa-solid fa-file-shield"></i>
+                </div>
+                <h1>Gestão de Documentos</h1>
+            </div>
+            <p>Gerencie e solicite documentos pendentes de seus clientes.</p>
+            
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="tab-list"><i class="fa-solid fa-list"></i> Lista de Clientes</button>
+                <button class="tab-btn" data-tab="tab-upload"><i class="fa-solid fa-inbox"></i> Caixa de Entrada</button>
+                <a href="docs.html" target="_blank" class="tab-btn" style="text-decoration: none;"><i class="fa-solid fa-book"></i> Documentação API</a>
+            </div>
+        </header>
+
+        <!-- Aba 1: Lista e Requisição -->
+        <main class="app-main tab-content active" id="tab-list">
+            <section class="clients-section pending-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Documentação Pendente</h2>
+                    <div class="select-all-container">
+                        <input type="checkbox" id="selectAll" class="custom-checkbox">
+                        <label for="selectAll">Selecionar Todos</label>
+                    </div>
+                </div>
+                <div class="clients-list" id="pendingClientsList">
+                    <!-- Pending clients will be rendered here -->
+                </div>
+            </section>
+
+            <section class="clients-section complete-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-circle-check"></i> Documentação Completa</h2>
+                </div>
+                <div class="clients-list" id="completeClientsList">
+                    <!-- Complete clients will be rendered here -->
+                </div>
+            </section>
+            
+            <footer class="app-footer">
+                <button id="btnSubmit" class="btn-primary" disabled>
+                    <span>Solicitar Documentos Faltantes</span>
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </footer>
+        </main>
+
+        <!-- Aba 2: Caixa de Entrada (Upload Avulso) -->
+        <main class="app-main tab-content" id="tab-upload">
+            <section class="upload-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-cloud-arrow-up"></i> Testar Envio Avulso</h2>
+                </div>
+                
+                <form id="uploadForm" class="upload-form">
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem;">Simule aqui o envio de um documento que chegou por email (sem vínculo de cliente).</p>
+                    
+                    <div class="form-group">
+                        <label for="remetenteInput">Remetente (Opcional)</label>
+                        <input type="email" id="remetenteInput" placeholder="Ex: contato@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Arquivo</label>
+                        <div class="file-drop-area" id="fileDropArea">
+                            <i class="fa-solid fa-cloud-arrow-up file-icon"></i>
+                            <span class="file-msg">Arraste e solte o arquivo aqui ou clique para selecionar</span>
+                            <span class="file-limits">Aceito: PDF, JPG, PNG (Max 10MB)</span>
+                            <input class="file-input" type="file" id="fileInput" accept=".pdf, .jpg, .jpeg, .png" required>
+                        </div>
+                        <div id="fileInfo" class="file-info hidden">
+                            <i class="fa-solid fa-file"></i> <span id="fileNameDisplay"></span>
+                            <i class="fa-solid fa-xmark remove-file" id="removeFileBtn"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">
+                            <span>Simular Envio de Documento</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="clients-section pending-section" style="margin-top: 1rem;">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-inbox"></i> Documentos Recebidos (Caixa de Entrada)</h2>
+                </div>
+                <div class="clients-list" id="novosDocumentosList">
+                    <!-- Unassigned docs will be rendered here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+        <div class="toast-content">
+            <i id="toastIcon" class="fa-solid fa-check-circle"></i>
+            <span id="toastMessage">Sucesso!</span>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div id="loader" class="loader-overlay hidden">
+        <div class="spinner"></div>
+        <p id="loaderMessage">Processando...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
